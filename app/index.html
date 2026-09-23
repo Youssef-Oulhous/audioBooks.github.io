@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AuK Audiobooks</title>
+  <meta name="description" content="Turn a PDF book into a narrated audiobook on your own server.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Audiobooks">
+  <meta name="application-name" content="AuK Audiobooks">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0b1519" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f2f7f6" media="(prefers-color-scheme: light)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="preload" href="fonts/outfit-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="modulepreload" href="js/util.js">
+  <link rel="modulepreload" href="js/api.js">
+  <link rel="modulepreload" href="js/player.js">
+  <link rel="modulepreload" href="js/views/library.js">
+  <link rel="modulepreload" href="js/views/book.js">
+  <link rel="modulepreload" href="js/stats.js">
+  <link rel="modulepreload" href="js/water.js">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main id="view" tabindex="-1">
+    <div class="boot" aria-label="Loading"><span class="spinner"></span></div>
+  </main>
+  <div id="player-root"></div>
+  <div id="tabbar-root"></div>
+  <div id="overlay-root"></div>
+  <div id="toast-root" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">AuK Audiobooks needs JavaScript turned on.</p></noscript>
+</body>
+</html>

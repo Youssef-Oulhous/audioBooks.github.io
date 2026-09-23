@@ -1,0 +1,8 @@
+# Server for AuK Audiobooks. Install into the same environment as AuK (pip install -e AuK).
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+pymupdf>=1.24
+numpy>=1.24
+imageio-ffmpeg>=0.5   # bundled ffmpeg for AAC/M4B (a system ffmpeg is used if present)
+soundfile>=0.12       # torchaudio's WAV backend for AuK's reference audio (normally pulled in by AuK already)

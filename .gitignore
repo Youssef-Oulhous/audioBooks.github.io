@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# server runtime data (books, audio, voice samples) and secrets
+server/data/
+server/demo-data/
+server/.env
+server/cloudflared
+server/cloudflared.log
+
+# test PDFs (downloaded / generated on demand)
+server/tests/fixtures/*.pdf
+
+# app test artefacts
+app-tests/screenshots/
+server/local-data/

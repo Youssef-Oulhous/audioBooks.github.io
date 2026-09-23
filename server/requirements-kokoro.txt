@@ -1,0 +1,4 @@
+# Real voices on any computer, no GPU: Pipecat's Kokoro TTS service (Python 3.11+ gets Pipecat 1.x,
+# which supports the narration pace setting). The model (~330 MB) downloads on first use.
+pipecat-ai[kokoro]>=1.0; python_version >= "3.11"
+pipecat-ai[kokoro]; python_version < "3.11"
