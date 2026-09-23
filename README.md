@@ -194,6 +194,35 @@ bash deploy/run_local.sh --tunnel     # plus a free https address, for the hoste
 - The model (~330 MB) downloads on first start into `~/.cache/pipecat/kokoro-onnx`.
   Kokoro needs Python 3.11+ for Pipecat 1.x (the script sets that up).
 
+## Leave it running: install it as a service
+
+So the server is simply always there — no terminal, no command to remember, back up by itself
+after a reboot:
+
+```bash
+bash deploy/install_service.sh --tunnel     # install and start
+bash deploy/setup_tailscale.sh              # optional: an https address that never changes
+```
+
+`install_service.sh` writes two small systemd user services, `audiobook` (the server) and
+`audiobook-tunnel` (its https address), turns on lingering so they run even when you are logged
+out, and starts them. Settings live in `~/.config/audiobook/env` (access code, where books are
+kept); the current https address is always in `~/.config/audiobook/address`.
+
+```bash
+systemctl --user status audiobook       # is it running?
+journalctl --user -u audiobook -f       # what is it doing?
+bash deploy/install_service.sh --remove # uninstall (books are kept)
+```
+
+Without `setup_tailscale.sh` the address comes from a Cloudflare quick tunnel, which is free and
+needs no account but changes every restart, so the app has to be pointed at it again.
+`setup_tailscale.sh` downloads Tailscale (user space, no admin rights), asks you to sign in once
+and turns on [Funnel](https://tailscale.com/kb/1223/funnel): from then on the server keeps the
+same `https://audiobooks.<your-tailnet>.ts.net` address, and the app never needs repointing.
+Either way the computer has to be awake for a new book to be narrated; books already downloaded
+to the phone play with everything off.
+
 ## Free GPU: a whole book in minutes (Google Colab)
 
 Kokoro on a laptop CPU runs at about real time, so a full book takes hours. The same model on a
