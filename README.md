@@ -21,6 +21,28 @@ speech model you run yourself. No paid voice APIs.
    usual. It also shows your streak, a daily goal ring, time listened, time in the
    app and books finished each month.
 
+## The app, hosted
+
+The iPhone app is published from this repository to GitHub Pages:
+
+**https://youssef-oulhous.github.io/audioBooks.github.io/**
+
+Open it in Safari and tap `Share > Add to Home Screen`. The icon then always opens, even with no
+server running, and plays the books you downloaded for offline listening. Every push to `main`
+that touches `app/` republishes it (`.github/workflows/pages.yml`).
+
+The app needs a server to make books, and a page served over https can only talk to an https
+server, so the server needs a secure address:
+
+```bash
+bash deploy/run_local.sh --tunnel     # your PC, free https address (Cloudflare quick tunnel)
+```
+
+It prints `https://….trycloudflare.com/?pair=<code>`. Open that once on your phone and the app
+remembers the address and code (or type them into Settings). The address changes each run; the
+app's own address never does. For a book in minutes rather than hours, run the Colab notebook
+below instead and use the link it prints.
+
 ## How it fits together
 
 ```
@@ -152,7 +174,8 @@ The server can also narrate with **Kokoro**, through the same TTS service that
 It runs on an ordinary CPU, needs no API key and costs nothing:
 
 ```bash
-bash deploy/run_local.sh     # then open http://localhost:8000
+bash deploy/run_local.sh              # then open http://localhost:8000
+bash deploy/run_local.sh --tunnel     # plus a free https address, for the hosted app and for use away from home
 ```
 
 - **Voices:** two, to keep it simple: Heart (American, female) and George (British, male).
