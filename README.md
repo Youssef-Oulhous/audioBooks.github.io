@@ -31,6 +31,10 @@ Open it in Safari and tap `Share > Add to Home Screen`. The icon then always ope
 server running, and plays the books you downloaded for offline listening. Every push to `main`
 that touches `app/` republishes it (`.github/workflows/pages.yml`).
 
+It can also be hosted anywhere else that serves static files. On **Vercel**, import this
+repository and press Deploy: `vercel.json` tells it to publish the `app/` folder with no build
+step (or set "Root Directory" to `app` in the import screen and leave the build settings empty).
+
 The app needs a server to make books, and a page served over https can only talk to an https
 server, so the server needs a secure address:
 
