@@ -108,6 +108,7 @@ class Player extends Emitter {
     this.stalled = false;
     this._blob = null;
     this._blobTried = false;
+    this._srcRetried = false;
     this._sleepTimer = null;
     this._waitTimer = null;
     this._liveTimer = null;
@@ -344,6 +345,7 @@ class Player extends Emitter {
   _setSrc(src, abs) {
     this._revokeBlob();
     this._blobTried = false;
+    this._srcRetried = false;
     this.stalled = false;
     this._src = src;
     this._pendingAbs = abs > 0 ? abs : null;
@@ -1045,6 +1047,16 @@ class Player extends Emitter {
     const url = this.mode === 'stream' ? book.stream_url : ch.audio_url;
     const resumeAbs = this._pendingAbs != null ? this._pendingAbs : this.audio.currentTime || 0;
     const wasPlaying = !this.audio.paused || this._pendingAbs != null;
+    if (!this._srcRetried && !this._blob && navigator.onLine !== false) {
+      // A tunnel can drop a single connection: pick the same file up again where we were,
+      // before falling back to the offline copy or to the chapter files.
+      this._srcRetried = true;
+      this._pendingAbs = resumeAbs;
+      this.audio.src = url;
+      this.audio.load();
+      if (wasPlaying) this._play();
+      return;
+    }
     if (!this._blobTried && offline.supported()) {
       this._blobTried = true;
       offline.blobUrl(url).then((blob) => {

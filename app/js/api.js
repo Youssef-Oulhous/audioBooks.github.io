@@ -47,7 +47,18 @@ export async function api(path, { method = 'GET', body, timeout = 30000, base, t
   const timer = setTimeout(() => ctl.abort(), timeout);
   let res;
   try {
-    res = await fetch(url, { method, headers, body: payload, signal: ctl.signal, cache: 'no-store' });
+    // A tunnel (Tailscale Funnel, Cloudflare) sometimes drops the very first connection of a
+    // burst. Reading is safe to repeat, so a dropped GET is tried once more before giving up.
+    for (let attempt = 0; ; attempt++) {
+      try {
+        res = await fetch(url, { method, headers, body: payload, signal: ctl.signal, cache: 'no-store' });
+        break;
+      } catch (err) {
+        const retriable = attempt === 0 && method === 'GET' && !(err && err.name === 'AbortError');
+        if (!retriable) throw err;
+        await new Promise((done) => setTimeout(done, 400));
+      }
+    }
   } catch (err) {
     const timedOut = err && err.name === 'AbortError';
     apiEvents.emit('network-error');

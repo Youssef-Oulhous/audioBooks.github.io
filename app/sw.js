@@ -6,7 +6,7 @@
 // - Downloaded audio + covers ("audio-v1", filled by the page): served from cache,
 //   with HTTP Range support (iOS Safari only plays media it can range-request).
 
-const VERSION = '3.2.0';
+const VERSION = '3.3.0';
 const SHELL_CACHE = `auk-shell-${VERSION}`;
 const AUDIO_CACHE = 'audio-v1';
 
